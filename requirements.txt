@@ -1,0 +1,11 @@
+beautifulsoup4==4.12.3
+certifi==2024.8.30
+charset-normalizer==3.3.2
+config==0.5.1
+idna==3.10
+mysql-connector-python==9.0.0
+requests==2.32.3
+schedule==1.2.2
+soupsieve==2.6
+urllib3==2.2.3
+uv==0.4.18

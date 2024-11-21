@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 6328
+      MYSQL_DATABASE: quotes_db
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: 6328
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  scraper:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_USER: app_user
+      DB_PASSWORD: 6328
+      DB_NAME: quotes_db
+    volumes:
+      - .:/app
+    command: ["python", "scraper.py"]
+
+volumes:
+  db_data:
